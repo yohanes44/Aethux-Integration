@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="Aethux">1e8eeb9d832b62100b0b9bc6feaad365</category>
+        <order>200</order>
+        <property display_value="aethux_oauth_refresh_token_lifespan" name="aethux_oauth_refresh_token_lifespan">b7bd6b5d832b62100b0b9bc6feaad3bf</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>yohanes.yilma</sys_created_by>
+        <sys_created_on>2025-08-23 11:04:49</sys_created_on>
+        <sys_id>19aeaf9d832b62100b0b9bc6feaad3b6</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>aethux_oauth_refresh_token_lifespan.Aethux</sys_name>
+        <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_19aeaf9d832b62100b0b9bc6feaad3b6</sys_update_name>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-23 11:05:07</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>

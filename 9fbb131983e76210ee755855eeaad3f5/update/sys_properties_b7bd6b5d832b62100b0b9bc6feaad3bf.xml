@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Refresh token lifespan (in Sec)</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>aethux_oauth_refresh_token_lifespan</name>
+        <read_roles/>
+        <suffix/>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>yohanes.yilma</sys_created_by>
+        <sys_created_on>2025-08-23 11:00:54</sys_created_on>
+        <sys_id>b7bd6b5d832b62100b0b9bc6feaad3bf</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>aethux_oauth_refresh_token_lifespan</sys_name>
+        <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
+        <sys_update_name>sys_properties_b7bd6b5d832b62100b0b9bc6feaad3bf</sys_update_name>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-23 11:16:45</sys_updated_on>
+        <type>string</type>
+        <value>8,640,000</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=b7bd6b5d832b62100b0b9bc6feaad3bf"/>
+</record_update>
