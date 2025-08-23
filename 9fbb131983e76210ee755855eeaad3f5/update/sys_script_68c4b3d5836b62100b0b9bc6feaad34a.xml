@@ -6,7 +6,7 @@
         <action_insert>true</action_insert>
         <action_query>false</action_query>
         <action_update>true</action_update>
-        <active>true</active>
+        <active>false</active>
         <add_message>false</add_message>
         <advanced>true</advanced>
         <change_fields>false</change_fields>
@@ -50,7 +50,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>68c4b3d5836b62100b0b9bc6feaad34a</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>Sync Client Secret (AETHUX)</sys_name>
         <sys_overrides/>
         <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
@@ -58,20 +58,9 @@
         <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
         <sys_update_name>sys_script_68c4b3d5836b62100b0b9bc6feaad34a</sys_update_name>
         <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-08-23 11:35:56</sys_updated_on>
+        <sys_updated_on>2025-08-23 20:26:34</sys_updated_on>
         <template/>
         <when>async_always</when>
     </sys_script>
     <sys_translated_text action="delete_multiple" query="documentkey=68c4b3d5836b62100b0b9bc6feaad34a"/>
-    <sys_es_latest_script action="INSERT_OR_UPDATE">
-        <id>68c4b3d5836b62100b0b9bc6feaad34a</id>
-        <sys_created_by>yohanes.yilma</sys_created_by>
-        <sys_created_on>2025-08-23 11:31:32</sys_created_on>
-        <sys_id>a4c4b3d5836b62100b0b9bc6feaad34e</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-08-23 11:31:32</sys_updated_on>
-        <table>sys_script</table>
-        <use_es_latest>true</use_es_latest>
-    </sys_es_latest_script>
 </record_update>

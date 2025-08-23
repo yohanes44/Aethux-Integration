@@ -8,20 +8,72 @@
         <http_method>GET</http_method>
         <name>metrics</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
-    var metrics = {};
 
+    // --- Collect CI classes ---
+    var ci_classes = [];
+    if (request.queryParams.ci_classes) {
+        ci_classes = request.queryParams.ci_classes[0].split(",");
+    }
+
+    var ci_classes_parm = request.queryParams.sysparm_ci_classes;
+    var ciClassesArr = [];
+    if (ci_classes_parm) {
+        ciClassesArr = ci_classes_parm.split(",");
+    }
+
+    // Merge both query params (unique values only)
+    var allCiClasses = ci_classes.concat(ciClassesArr)
+        .filter(function(item, pos, arr) { return arr.indexOf(item) === pos; });
+
+    var metrics = { };
+
+    // --- Validate each CI class ---
+    var invalidClasses = [];
+    var validCiClasses = [];
+
+    allCiClasses.forEach(function(ciClass) {
+		ciClass = ciClass.trim();
+        var gr = new GlideRecord('sys_db_object');
+        gr.addQuery('name', ciClass);
+		gr.setLimit(1);
+        gr.query();
+        if (gr.next()) {
+            validCiClasses.push(ciClass);
+        } else {
+            invalidClasses.push(ciClass);
+        }
+    });
+
+    // If any invalid CI classes found → return error
+    if (invalidClasses.length > 0) {
+        response.setStatus(400); // Bad Request
+        return {
+            error: "Invalid CI class table name(s)",
+            invalid: invalidClasses
+        };
+    }
+
+    // --- Static patterns ---
     var urlPatterns = [
         'api/now/table/cmdb_categories',
         'api/now/table/cmdb_ci',
-        'api/now/table/cmdb_rel_type',
-        'oauth_token.do'
+        'api/now/table/cmdb_ci_rel',
+        'api/now/table/cmdb_rel_type'
     ];
 
+    // --- Add one pattern per valid CI class ---
+    validCiClasses.forEach(function(ciClass) {
+        urlPatterns.push('api/now/table/' + ciClass);
+    });
+
+    // --- Process all patterns ---
     urlPatterns.forEach(function(pattern) {
         var count = 0;
         var totalResponseTime = 0;
         var totalSqlTime = 0;
-        var totalBusinessRuleTime = 0;
+        var totalCPUTime = 0;
+        var cpu_usage = 0;
+        var network_time = 0;
 
         var logGr = new GlideRecord('syslog_transaction');
         logGr.addQuery('type', 'rest');
@@ -30,16 +82,20 @@
 
         while (logGr.next()) {
             count++;
+            network_time += parseInt(logGr.getValue('network_time')) || 0;
             totalResponseTime += parseInt(logGr.getValue('response_time')) || 0;
             totalSqlTime += parseInt(logGr.getValue('sql_time')) || 0;
-            totalBusinessRuleTime += parseInt(logGr.getValue('business_rule_time')) || 0;
+            totalCPUTime += parseInt(logGr.getValue('cpu_time')) || 0;
+            cpu_usage += parseInt(logGr.getValue('cpu_usage')) || 0;
         }
 
         metrics[pattern] = {
             call_count: count,
-            avg_response_time: count > 0 ? totalResponseTime / count : 0,
-            avg_sql_time: count > 0 ? totalSqlTime / count : 0,
-            avg_business_rule_time: count > 0 ? totalBusinessRuleTime / count : 0
+            network_time: count > 0 ? (network_time / count) + " ms" : "0 ms",
+            avg_response_time: count > 0 ? (totalResponseTime / count) + " ms" : "0 ms",
+            avg_sql_time: count > 0 ? (totalSqlTime / count) + " ms" : "0 ms",
+            avg_cpu_time: count > 0 ? (totalCPUTime / count) + " ms" : "0 ms",
+            cpu_usage: count > 0 ? (cpu_usage / count) : 0
         };
     });
 
@@ -59,26 +115,15 @@
         <sys_created_by>yohanes.yilma</sys_created_by>
         <sys_created_on>2025-08-23 09:49:15</sys_created_on>
         <sys_id>164ddb9983e76210ee755855eeaad30f</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>86</sys_mod_count>
         <sys_name>metrics</sys_name>
         <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
         <sys_update_name>sys_ws_operation_164ddb9983e76210ee755855eeaad30f</sys_update_name>
         <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-08-23 15:39:47</sys_updated_on>
+        <sys_updated_on>2025-08-23 23:39:17</sys_updated_on>
         <web_service_definition display_value="Aethux Metrics">b82d979983e76210ee755855eeaad3f7</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
-    <sys_es_latest_script action="INSERT_OR_UPDATE">
-        <id>164ddb9983e76210ee755855eeaad30f</id>
-        <sys_created_by>yohanes.yilma</sys_created_by>
-        <sys_created_on>2025-08-23 09:49:15</sys_created_on>
-        <sys_id>625d1f9983e76210ee755855eeaad383</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-08-23 09:49:15</sys_updated_on>
-        <table>sys_ws_operation</table>
-        <use_es_latest>true</use_es_latest>
-    </sys_es_latest_script>
 </record_update>
