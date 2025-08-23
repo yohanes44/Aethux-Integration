@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl/>
+        <http_method>GET</http_method>
+        <name>metrics</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+    // Prepare an object to store metrics
+    var metrics = {
+        request_count: "ye",
+        error_count: 0,
+        average_response_time: 0
+    };
+
+    // try {
+        // Query to count total REST transactions
+        var logGr = new GlideAggregate('syslog_transaction');
+        logGr.setLimit(1); 
+        logGr.query();
+
+        if (logGr.next()) {
+            metrics.request_count = "lollll";
+        }
+
+		return metrics
+
+        // Respond with metrics
+        // response.setStatus(200);
+        // response.setHeader('Content-Type', 'application/json');
+        // response.setBody(JSON.stringify(metrics));
+
+    // } catch (e) {
+    //     // Handle and log errors
+    //     gs.error('Error retrieving metrics: ' + e.message);
+    //     response.setStatus(500);
+    //     response.setBody(JSON.stringify({ error: e.message }));
+    // }
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/559460/metrics</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>yohanes.yilma</sys_created_by>
+        <sys_created_on>2025-08-23 09:49:15</sys_created_on>
+        <sys_id>164ddb9983e76210ee755855eeaad30f</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>metrics</sys_name>
+        <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
+        <sys_update_name>sys_ws_operation_164ddb9983e76210ee755855eeaad30f</sys_update_name>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-23 09:54:42</sys_updated_on>
+        <web_service_definition display_value="Metrics">b82d979983e76210ee755855eeaad3f7</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>164ddb9983e76210ee755855eeaad30f</id>
+        <sys_created_by>yohanes.yilma</sys_created_by>
+        <sys_created_on>2025-08-23 09:49:15</sys_created_on>
+        <sys_id>625d1f9983e76210ee755855eeaad383</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>yohanes.yilma</sys_updated_by>
+        <sys_updated_on>2025-08-23 09:49:15</sys_updated_on>
+        <table>sys_ws_operation</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>
