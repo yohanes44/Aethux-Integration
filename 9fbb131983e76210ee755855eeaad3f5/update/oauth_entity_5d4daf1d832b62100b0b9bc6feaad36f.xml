@@ -11,7 +11,7 @@
         <client_type/>
         <client_uuid>1d4daf1d832b62100b0b9bc6feaad36f</client_uuid>
         <code_challenge_method>S256</code_challenge_method>
-        <comments/>
+        <comments>ass  dqdqdwdqqw wewererwe</comments>
         <default_grant_type>password</default_grant_type>
         <extend_refresh_token_expiry>false</extend_refresh_token_expiry>
         <id_token_lifespan>86400</id_token_lifespan>
@@ -21,7 +21,7 @@
         <logo_url/>
         <message_signature_lifespan>60</message_signature_lifespan>
         <mobile_client>false</mobile_client>
-        <name>Aethux Oauth</name>
+        <name>Aethux</name>
         <oauth_api_script/>
         <protocol_name/>
         <public_client>false</public_client>
@@ -37,14 +37,14 @@
         <sys_created_by>yohanes.yilma</sys_created_by>
         <sys_created_on>2025-08-23 10:59:00</sys_created_on>
         <sys_id>5d4daf1d832b62100b0b9bc6feaad36f</sys_id>
-        <sys_mod_count>5</sys_mod_count>
-        <sys_name>Aethux Oauth</sys_name>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>Aethux</sys_name>
         <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
         <sys_update_name>oauth_entity_5d4daf1d832b62100b0b9bc6feaad36f</sys_update_name>
         <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-08-23 11:16:46</sys_updated_on>
+        <sys_updated_on>2025-08-23 11:36:14</sys_updated_on>
         <token_url/>
         <type>client</type>
         <use_mutual_auth>false</use_mutual_auth>

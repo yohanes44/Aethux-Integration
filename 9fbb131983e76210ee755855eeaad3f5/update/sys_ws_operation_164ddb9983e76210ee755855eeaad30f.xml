@@ -8,36 +8,54 @@
         <http_method>GET</http_method>
         <name>metrics</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
-    // Prepare an object to store metrics
-    var metrics = {
-        request_count: "ye",
-        error_count: 0,
-        average_response_time: 0
-    };
+    var metrics = {};
 
-    // try {
-        // Query to count total REST transactions
+    var urlPatterns = [
+        'api/now/table/cmdb_categories',
+        'api/now/table/cmdb_ci',
+        'api/now/table/cmdb_rel_type',
+        'oauth_token.do'
+    ];
+
+    urlPatterns.forEach(function(pattern) {
         var logGr = new GlideAggregate('syslog_transaction');
-        logGr.setLimit(1); 
+        logGr.addQuery('type', 'rest');
+        logGr.addQuery('url', 'CONTAINS', pattern);
+
+        logGr.addAggregate('COUNT');
+        logGr.addAggregate('AVG', 'response_time');
+        logGr.addAggregate('AVG', 'sql_time');
+        logGr.addAggregate('AVG', 'business_rule_time');
+
+        var count = 0;
+        var avgResponseTime = 0;
+        var avgSqlTime = 0;
+        var avgBusinessRuleTime = 0;
+        
         logGr.query();
 
         if (logGr.next()) {
-            metrics.request_count = "lollll";
+            count = logGr.getAggregate('COUNT');
+            avgResponseTime = logGr.getAggregate('AVG', 'response_time');
+            avgSqlTime = logGr.getAggregate('AVG', 'sql_time');
+            avgBusinessRuleTime = logGr.getAggregate('AVG', 'business_rule_time');
+            
+            // Logging results
+            gs.info("Pattern: " + pattern + ", Count: " + count);
+        } else {
+            // Logging a message if no data is found
+            gs.info("No data found for pattern: " + pattern);
         }
 
-		return metrics
+        metrics[pattern] = {
+            call_count: count,
+            avg_response_time: avgResponseTime,
+            avg_sql_time: avgSqlTime,
+            avg_business_rule_time: avgBusinessRuleTime
+        };
+    });
 
-        // Respond with metrics
-        // response.setStatus(200);
-        // response.setHeader('Content-Type', 'application/json');
-        // response.setBody(JSON.stringify(metrics));
-
-    // } catch (e) {
-    //     // Handle and log errors
-    //     gs.error('Error retrieving metrics: ' + e.message);
-    //     response.setStatus(500);
-    //     response.setBody(JSON.stringify({ error: e.message }));
-    // }
+    return metrics;
 
 })(request, response);]]></operation_script>
         <operation_uri>/api/559460/metrics</operation_uri>
@@ -53,15 +71,15 @@
         <sys_created_by>yohanes.yilma</sys_created_by>
         <sys_created_on>2025-08-23 09:49:15</sys_created_on>
         <sys_id>164ddb9983e76210ee755855eeaad30f</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>14</sys_mod_count>
         <sys_name>metrics</sys_name>
         <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
         <sys_update_name>sys_ws_operation_164ddb9983e76210ee755855eeaad30f</sys_update_name>
         <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-08-23 09:54:42</sys_updated_on>
-        <web_service_definition display_value="Metrics">b82d979983e76210ee755855eeaad3f7</web_service_definition>
+        <sys_updated_on>2025-08-23 15:10:07</sys_updated_on>
+        <web_service_definition display_value="Aethux Metrics">b82d979983e76210ee755855eeaad3f7</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
