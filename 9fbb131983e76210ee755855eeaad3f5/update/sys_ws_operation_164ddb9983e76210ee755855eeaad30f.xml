@@ -18,40 +18,28 @@
     ];
 
     urlPatterns.forEach(function(pattern) {
-        var logGr = new GlideAggregate('syslog_transaction');
+        var count = 0;
+        var totalResponseTime = 0;
+        var totalSqlTime = 0;
+        var totalBusinessRuleTime = 0;
+
+        var logGr = new GlideRecord('syslog_transaction');
         logGr.addQuery('type', 'rest');
         logGr.addQuery('url', 'CONTAINS', pattern);
-
-        logGr.addAggregate('COUNT');
-        logGr.addAggregate('AVG', 'response_time');
-        logGr.addAggregate('AVG', 'sql_time');
-        logGr.addAggregate('AVG', 'business_rule_time');
-
-        var count = 0;
-        var avgResponseTime = 0;
-        var avgSqlTime = 0;
-        var avgBusinessRuleTime = 0;
-        
         logGr.query();
 
-        if (logGr.next()) {
-            count = logGr.getAggregate('COUNT');
-            avgResponseTime = logGr.getAggregate('AVG', 'response_time');
-            avgSqlTime = logGr.getAggregate('AVG', 'sql_time');
-            avgBusinessRuleTime = logGr.getAggregate('AVG', 'business_rule_time');
-            
-            // Logging results
-            gs.info("Pattern: " + pattern + ", Count: " + count);
-        } else {
-            // Logging a message if no data is found
-            gs.info("No data found for pattern: " + pattern);
+        while (logGr.next()) {
+            count++;
+            totalResponseTime += parseInt(logGr.getValue('response_time')) || 0;
+            totalSqlTime += parseInt(logGr.getValue('sql_time')) || 0;
+            totalBusinessRuleTime += parseInt(logGr.getValue('business_rule_time')) || 0;
         }
 
         metrics[pattern] = {
             call_count: count,
-            avg_response_time: avgResponseTime,
-            avg_sql_time: avgSqlTime,
-            avg_business_rule_time: avgBusinessRuleTime
+            avg_response_time: count > 0 ? totalResponseTime / count : 0,
+            avg_sql_time: count > 0 ? totalSqlTime / count : 0,
+            avg_business_rule_time: count > 0 ? totalBusinessRuleTime / count : 0
         };
     });
 
@@ -71,14 +59,14 @@
         <sys_created_by>yohanes.yilma</sys_created_by>
         <sys_created_on>2025-08-23 09:49:15</sys_created_on>
         <sys_id>164ddb9983e76210ee755855eeaad30f</sys_id>
-        <sys_mod_count>14</sys_mod_count>
+        <sys_mod_count>22</sys_mod_count>
         <sys_name>metrics</sys_name>
         <sys_package display_value="Aethux Integration" source="9fbb131983e76210ee755855eeaad3f5">9fbb131983e76210ee755855eeaad3f5</sys_package>
         <sys_policy/>
         <sys_scope display_value="Aethux Integration">9fbb131983e76210ee755855eeaad3f5</sys_scope>
         <sys_update_name>sys_ws_operation_164ddb9983e76210ee755855eeaad30f</sys_update_name>
         <sys_updated_by>yohanes.yilma</sys_updated_by>
-        <sys_updated_on>2025-08-23 15:10:07</sys_updated_on>
+        <sys_updated_on>2025-08-23 15:39:47</sys_updated_on>
         <web_service_definition display_value="Aethux Metrics">b82d979983e76210ee755855eeaad3f7</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
